@@ -1,0 +1,108 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box ;
+    text-decoration: none;
+    list-style: none;
+}
+.logo{
+    font-size: 65px;
+    color: aliceblue;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    margin-left:100px ;
+    
+}
+
+
+.content{
+    min-height: 300px;
+    background: linear-gradient(
+        90deg, 
+        rgb(2, 8, 10) 30%, rgb(11, 1, 12) 70%);
+        margin-top: 15px;
+        margin-left: 15px;
+}
+
+.menu {
+   
+    position: absolute;
+
+}
+
+
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    min-height: 1px;
+}
+.container{
+    max-width: 1200px;
+    margin:  auto;
+}
+
+.img-1{
+
+    margin-top: 100px;
+    margin-left: 100px;
+    margin-right: 23;
+}
+
+.img-2{
+
+    margin-top: 90px;
+    margin-left: 150px;
+    margin-right: 2;
+}
+
+.img-3{
+
+    margin-top: -150px;
+    margin-left: 150px;
+    margin-right: 0px;
+    
+  
+}
+
+.img-4{
+
+    margin-top: 100px;
+    margin-left: 150px;
+    margin-right: 10px;
+    
+  
+}
+
+.img-5{
+
+    margin-top: 100px;
+    margin-left: 150px;
+    margin-right: 10px;
+    
+  
+}
+
+.logica{
+    font-size: 50px;
+
+}
+
+.titu1{
+    font-size: 50px;
+    margin-left: 80px;
+}
+
+.titu2{
+    font-size: 5px;
+}
+
+.titu3{
+    font-size: 5px;
+    
+}
+
+
+
+
+
+
