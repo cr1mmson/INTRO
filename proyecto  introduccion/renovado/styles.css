@@ -42,10 +42,14 @@ h1, h2, h3, h4 {
 .p-header {
     font-size: 2rem;
     font-weight: bold;
-    border: 1px solid white;
-    padding: .5rem;
-    border-radius: .7rem;
     color: white;
+}
+.anchor {
+    font-size: 2rem;
+    font-weight: bold;
+    padding: 1rem;
+    color: white;
+    text-decoration: none;
 }
 .nav {
     display: grid;
@@ -70,6 +74,7 @@ h1, h2, h3, h4 {
 }
 main {
     flex: 1;
+    padding-bottom: 10rem;
 }
 .container-main {
     display: flex;
@@ -148,6 +153,6 @@ main {
 .individual-container .text {
     text-align: left;
 }
-.individual-container .text .sub{
+.sub{
     font-weight: bold;
 }
