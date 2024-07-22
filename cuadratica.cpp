@@ -1,5 +1,6 @@
 #include <iostream>
 #include <math.h>
+#include <tuple>
 
 float a,b,c;
 
@@ -22,6 +23,7 @@ int main(){
   cin>>z;
 
     float root1,root2;
+       
         tie(root1,root2) = cuadratica(x,y,z);
 
         if(isnan(root1)&&isnan(root2)){
@@ -34,9 +36,8 @@ int main(){
         }
 
 }
-
 tuple<float, float> cuadratica(float a, float b, float c){
- 
+  
 
     float b1=b*-1;
     float b2=pow(b,2);
@@ -55,3 +56,4 @@ tuple<float, float> cuadratica(float a, float b, float c){
         return make_tuple(sqrt(b2-disc), sqrt(b2-disc));
 
     }
+  }
