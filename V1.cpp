@@ -19,13 +19,24 @@ void playerElection();
 bool checkPosition(int posR, int posC);
 
 int main(){
+    bool flagG =true;
+    while(flagG==true) {
 
-    while(true) {
-        cout<<"\n:::::STARTING GAME:::::\n";
-        cout<<"1) Start game";
-        cout<<"2) Exit";
-        
-        startGame();
+        cout<<"\n:::::TREASURE GAME:::::\n";
+        cout<<"1) Start game\n";
+        cout<<"2) Exit\n";
+        int choice;
+        cin>>choice;
+        switch(choice) {
+            case 1:
+                system("cls");
+                cout<<"\n:::::STARTING GAME:::::\n";
+                startGame();
+            break;
+            case 2:
+                flagG=false;
+            break;
+        }
     }
 
 }
@@ -88,22 +99,19 @@ void fillMatrixDATA() {
     int rowRanPos = rand()%(row), colRanPos = rand()%(col);
     *(*(pData+rowRanPos)+colRanPos) = 1;
 
-  //IMPRIMIR MATRIZ DE 0,1
-    for (int i=0;i<row;i++) {
-        cout<<endl;
-        for (int j=0;j<col;j++){
-            cout<<*(*(pData+i)+j);
-        }
-    }
-
     playerElection();
 }
 
 void playerElection() {
     int rowElection = 0, colElection = 0;
+    cout<<"\nFirst player attempt\n";
     cout<<"\nEnter the position you want to display(row, col): \n";
+    bool flagSP = false;
 
-    for(int tries; tries<3 ;tries++) {
+    int tries = 0;
+    int tries2 = 0;
+
+    for(tries = 0; tries<3 ;tries++) {
 
         cin>>rowElection;
         cin>>colElection;
@@ -111,13 +119,50 @@ void playerElection() {
         if(checkPosition(rowElection, colElection)) {
             cout<<"\nYou win!";
             tries = 3;
+            flagSP = false;
+            for (int i=0;i<row;i++) {
+                cout<<endl;
+                for (int j=0;j<col;j++){
+                    cout<<*(*(pData+i)+j);
+                }
+            }
         }
         else{
             cout<<"\nTry again\n";
+             flagSP = true;
+        }
+    }
+
+    if(flagSP==true && tries == 3) {
+        system("cls");
+        cout<<"\nSecond player attempt\n";
+        cout<<"\nEnter the position you want to display(row, col): \n";
+
+        for(tries2 = 0; tries2<3 ;tries2++) {
+
+            cin>>rowElection;
+            cin>>colElection;
+
+            if(checkPosition(rowElection, colElection)) {
+                cout<<"\nYou win!";
+                tries2 = 3;
+                for (int i=0;i<row;i++) {
+                    cout<<endl;
+                    for (int j=0;j<col;j++){
+                        cout<<*(*(pData+i)+j);
+                    }
+                }
+            }
+            else{
+                cout<<"\nTry again\n";
+            }
         }
 
     }
 
+    if(tries == 3 && tries2 == 3) {
+        cout<<"\nDraw\n";
+    }
 }
 
 bool checkPosition(int posR, int posC) {
