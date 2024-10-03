@@ -9,6 +9,7 @@ int row=0,col=0;
 char **p;
 int **pData;
 int counterN = 0;
+bool flagG;
 
 void fillMatrixView();
 void fillMatrixDATA();
@@ -19,7 +20,7 @@ void playerElection();
 bool checkPosition(int posR, int posC);
 
 int main(){
-    bool flagG =true;
+   flagG = true;
     while(flagG==true) {
 
         cout<<"\n:::::TREASURE GAME:::::\n";
@@ -47,11 +48,13 @@ void startGame() {
 }
 
 void fillMatrixView() {
-
+    system("cls");
+    cout<<"\n::::::::GAME:::::\n";
+    cout<<"Configure the game size board (n x n): \n";
     cin>>row;
     cin>>col;
     p = new char * [row];
-
+    system("cls");
     for (int i=0;i<row;i++){
         p[i] = new char[col];
     }
@@ -113,10 +116,18 @@ void playerElection() {
 
     for(tries = 0; tries<3 ;tries++) {
 
+
         cin>>rowElection;
         cin>>colElection;
+        while(rowElection>row-1 || colElection>col-1) {
+            cout<<"\nInvalid input\n";
+            cin>>rowElection;
+            cin>>colElection;
+        }
+
 
         if(checkPosition(rowElection, colElection)) {
+            system("cls");
             cout<<"\nYou win!";
             tries = 3;
             flagSP = false;
@@ -142,6 +153,9 @@ void playerElection() {
 
             cin>>rowElection;
             cin>>colElection;
+            while(rowElection>row || colElection>col) {
+                cout<<"\nInvalid input\n";
+            }
 
             if(checkPosition(rowElection, colElection)) {
                 cout<<"\nYou win!";
@@ -162,7 +176,22 @@ void playerElection() {
 
     if(tries == 3 && tries2 == 3) {
         cout<<"\nDraw\n";
+
     }
+
+    cout<<"\nWanna play again?\n1) Yes.\n2) No.\n";
+    int electionPlay;
+    cin>>electionPlay;
+    if(electionPlay==1) {
+        system("cls");
+        flagG = true;
+    }
+    else {
+        system("cls");
+        flagG = false;
+    }
+
+
 }
 
 bool checkPosition(int posR, int posC) {
