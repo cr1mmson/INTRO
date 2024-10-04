@@ -18,6 +18,9 @@ bool counter(int dataPosition);
 void startGame();
 void playerElection();
 bool checkPosition(int posR, int posC);
+void delay(int seconds) {
+    for (int i = (time(nullptr)+seconds); time(nullptr) != i; time(nullptr));
+}
 
 int main(){
    flagG = true;
@@ -87,7 +90,7 @@ void deleteMatrix() {
 
 
 void fillMatrixDATA() {
-    srand(time(NULL));
+    srand(time(nullptr));
     pData = new int * [row];
 
     for (int i=0;i<row;i++){
@@ -139,12 +142,28 @@ void playerElection() {
             }
         }
         else{
+            system("cls");
+
+            string t = to_string(*(*(pData+rowElection)+colElection));
+            char const *n = t.c_str();
+            *(*(p+rowElection)+colElection) = *n;
+
+            for (int i=0;i<row;i++){
+                cout<<endl;
+                for (int j=0;j<col;j++){
+                    cout<<*(*(p+i)+j);
+                }
+
+            }
+            delay(1);
             cout<<"\nTry again\n";
              flagSP = true;
+
         }
     }
 
     if(flagSP==true && tries == 3) {
+        delay(2);
         system("cls");
         cout<<"\nSecond player attempt\n";
         cout<<"\nEnter the position you want to display(row, col): \n";
@@ -153,8 +172,10 @@ void playerElection() {
 
             cin>>rowElection;
             cin>>colElection;
-            while(rowElection>row || colElection>col) {
+            while(rowElection>row-1 || colElection>col-1) {
                 cout<<"\nInvalid input\n";
+                cin>>rowElection;
+                cin>>colElection;
             }
 
             if(checkPosition(rowElection, colElection)) {
@@ -168,6 +189,22 @@ void playerElection() {
                 }
             }
             else{
+
+                system("cls");
+
+                string t = to_string(*(*(pData+rowElection)+colElection));
+                char const *n = t.c_str();
+                *(*(p+rowElection)+colElection) = *n;
+
+                for (int i=0;i<row;i++){
+                    cout<<endl;
+                    for (int j=0;j<col;j++){
+                        cout<<*(*(p+i)+j);
+                    }
+
+                }
+                delay(1);
+
                 cout<<"\nTry again\n";
             }
         }
@@ -175,11 +212,12 @@ void playerElection() {
     }
 
     if(tries == 3 && tries2 == 3) {
+        system("cls");
         cout<<"\nDraw\n";
-
+        delay(2);
     }
 
-    cout<<"\nWanna play again?\n1) Yes.\n2) No.\n";
+    cout<<"\n\nWanna play again?\n1) Yes.\n2) No.\n";
     int electionPlay;
     cin>>electionPlay;
     if(electionPlay==1) {
