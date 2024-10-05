@@ -64,14 +64,14 @@ void fillMatrixView() {
     for (int i=0;i<row;i++){
         for (int j=0;j<col;j++){
 
-            *(*(p+i)+j) = '#';
+            *(*(p+i)+j) = '*';
         }
     }
 
     for (int i=0;i<row;i++){
         cout<<endl;
         for (int j=0;j<col;j++){
-            cout<<*(*(p+i)+j);
+            cout<<*(*(p+i)+j)<<"   ";
         }
 
     }
@@ -151,10 +151,11 @@ void playerElection() {
             for (int i=0;i<row;i++){
                 cout<<endl;
                 for (int j=0;j<col;j++){
-                    cout<<*(*(p+i)+j);
+                    cout<<*(*(p+i)+j)<<"   ";
                 }
 
             }
+
             delay(1);
             cout<<"\nTry again\n";
              flagSP = true;
