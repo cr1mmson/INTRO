@@ -5,6 +5,7 @@ using namespace std;
 const char *employees = "employees.dat";
 const char *extra_hours = "extra_hours.dat";
 FILE *fptr;
+FILE *fptr2;
 
 void menu();
 void createFile(const char *files);
@@ -19,6 +20,12 @@ struct employee{
     char last_name[20];
     int phone_number;
 }empData;
+
+struct extraHours{
+    int code;
+    float hoursW;
+    float salary;
+}empSalary;
 
 
 int main() {
@@ -113,7 +120,7 @@ void updateFile(const char *files, int mode) {
             cin.getline(empData.last_name,20);
             cout<<"Enter phone number: ";
             cin>>empData.phone_number;
-            fwrite(&empData,sizeof(empData),1,fptr);
+            fwrite(&empData,sizeof(employee),1,fptr);
             cout<<("Do you want to enter another employee? (y/n): ");
             cin>>res;
 
@@ -162,8 +169,24 @@ void findE(const char *files) {
             system("cls");
             printf("Found an employee with code %d\n",empCode);
             cout<< empData.name <<" | " << empData.last_name << endl;
-            system("pause");
+            printf("Enter the extra hours: ");
+            float extraH;
+            cin>>extraH;
+            fptr2 = fopen(extra_hours, "a+b");
+            fflush(stdin);
+            empSalary.code=empData.code;
+            empSalary.hoursW=extraH;
+            empSalary.salary= 13.23 * extraH +3500;
+            fwrite(&empSalary, sizeof (extraHours), 1, fptr2);
+            fclose(fptr2);
+            fptr2 = fopen(extra_hours, "r+b");
+            while(feof(fptr2)==0) {
+                fread(&empSalary,sizeof(empSalary),1,fptr2);
+                if(empCode == empSalary.code) {
+                    cout<< empSalary.code <<" | " << empSalary.hoursW << " | "<< empSalary.salary<<endl;
+                }
+            }
+            fclose(fptr2);
         }
     }
 }
-
