@@ -13,6 +13,10 @@ void updateFile(const char *files, int);
 void readFile(const char *files);
 void deleteFile(const char *files);
 void findE(const char *files);
+void readFile2(const char *files);
+void readHE(const char *files);
+void modifyHours();
+void deleteHours();
 
 struct employee{
     int code;
@@ -68,14 +72,18 @@ void menu() {
                 findE(employees);
                 break;
             case 3:
+                readHE(extra_hours);
                 break;
             case 4:
+                modifyHours();
                 break;
             case 5:
+                readFile2(extra_hours);
                 break;
             case 6:
                 flag = false;
                 break;
+            default: ;
         }
 
 
@@ -105,14 +113,26 @@ void readFile(const char *files) {
 }
 
 void updateFile(const char *files, int mode) {
-    fptr = fopen(files, "a+b");
     char res;
     if(mode == 1) {
 
         do{
             fflush(stdin);
             cout<<"Enter code:";
-            cin>>empData.code;
+            int code;
+            cin>>code;
+            fptr = fopen(files, "r+b");
+            do {
+                fread(&empData, sizeof (empData), 1, fptr);
+                if(code == empData.code) {
+                    printf("Code already on file, enter other code: ");
+                    cin>>code;
+                }
+            }while(feof(fptr)==0);
+            fclose(fptr);
+            system("pause");
+            fptr = fopen(files, "a+b");
+            empData.code=code;
             cin.ignore();
             cout<<"Enter name: ";
             cin.getline(empData.name,20);
@@ -161,32 +181,102 @@ void findE(const char *files) {
     fflush(stdin);
     fptr = fopen(files, "r+b");
     int empCode;
+    bool flagFound=false;
     printf("Enter the employee code: ");
     cin>>empCode;
     while(feof(fptr)==0) {
         fread(&empData, sizeof (empData), 1, fptr);
-        if(empCode == empData.code) {
+        if(empCode== empData.code) {flagFound=true; break;}
+    }
+        if(flagFound) {
+
             system("cls");
             printf("Found an employee with code %d\n",empCode);
             cout<< empData.name <<" | " << empData.last_name << endl;
             printf("Enter the extra hours: ");
             float extraH;
             cin>>extraH;
+
             fptr2 = fopen(extra_hours, "a+b");
             fflush(stdin);
-            empSalary.code=empData.code;
-            empSalary.hoursW=extraH;
-            empSalary.salary= 13.23 * extraH +3500;
-            fwrite(&empSalary, sizeof (extraHours), 1, fptr2);
-            fclose(fptr2);
-            fptr2 = fopen(extra_hours, "r+b");
-            while(feof(fptr2)==0) {
-                fread(&empSalary,sizeof(empSalary),1,fptr2);
-                if(empCode == empSalary.code) {
-                    cout<< empSalary.code <<" | " << empSalary.hoursW << " | "<< empSalary.salary<<endl;
-                }
-            }
+            empSalary.code = empCode;
+            empSalary.hoursW = extraH;
+            empSalary.salary = 13.23 * extraH +3500;
+            fwrite(&empSalary,sizeof (extraHours), 1, fptr2);
             fclose(fptr2);
         }
+
+}
+
+void readFile2(const char *files) {
+    fflush(stdin);
+    fptr2 = fopen(files, "r+b");
+
+    int id =0;
+
+    fread(&empSalary, sizeof (empSalary), 1, fptr2);
+
+    do{
+        cout<<id<<" | " <<empSalary.code<<" | " << empSalary.hoursW << " | " <<empSalary.salary<< endl;
+        fread(&empSalary,sizeof(empSalary),1,fptr2);
+        id+=1;
+    }while(feof(fptr2)==0);
+    fclose(fptr2);
+}
+
+void readHE(const char *files) {
+    fflush(stdin);
+    fptr2 = fopen(files, "r+b");
+    printf("Enter the employee code: ");
+    int codeS;
+    cin>>codeS;
+    do{
+        fread(&empSalary, sizeof (empSalary), 1, fptr2);
+        if(codeS == empSalary.code) {
+            cout<<" | " <<empSalary.code<<" | " << empSalary.hoursW << " | " <<empSalary.salary<< endl;
+        }
+    }while(feof(fptr2)==0);
+    fclose(fptr2);
+}
+
+void modifyHours() {
+    fptr2 = fopen(extra_hours, "r+b");
+    int empCode;
+    bool flagFound=false;
+    printf("Enter the employee code: ");
+    cin>>empCode;
+
+    while(feof(fptr2)==0) {
+        fread(&empSalary, sizeof (empSalary), 1, fptr2);
+        if(empCode== empSalary.code) {flagFound=true; break;}
     }
+    if(flagFound) {
+
+        fseek(fptr2,empSalary.code * sizeof(empSalary),SEEK_SET);
+        cout<<"Enter the new extra hours: ";
+        cin>>empSalary.hoursW;
+        fwrite(&empSalary,sizeof(extraHours),1,fptr2);
+    }
+    fclose(fptr2);
+}
+
+void deleteHours() {
+    const char * temp = "temp.dat";
+    FILE *tarch = fopen(temp, "w+b");
+    fptr2 = fopen(extra_hours, "r+b");
+    int empCode;
+    cout<<"Enter the code to delete: ";
+    cin>>empCode;
+    while(fread(&empSalary,sizeof(extraHours),1,fptr2)){
+        if(empSalary.code !=empCode){
+            fwrite(&empSalary,sizeof(extraHours),1,tarch);
+
+        }
+
+    }
+    fclose(fptr2);
+    fclose(tarch);
+    remove("extra_hours.dat");
+    rename("temp.dat","extra_hours.dat");
+
 }
